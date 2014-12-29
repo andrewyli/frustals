@@ -1,7 +1,7 @@
-pub mod complex;
-pub mod cpolynomial;
+#![crate_name = "frustals"]
+#![crate_type = "lib"]
 
-#[test]
-fn complex_evaluation() {
-    
-}
+extern crate num;
+
+pub mod cpolynomial;
+pub mod complex_iterator;

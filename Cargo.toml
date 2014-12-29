@@ -2,4 +2,11 @@
 
 name = "frustals"
 version = "0.0.1"
-authors = ["FakeKane <andrewyli@gmail.com>"]
+authors = ["Andrew Li (EchoAce) <andrewyli@gmail.com>"]
+
+[lib]
+name = "frustals"
+path = "src/lib.rs"
+
+[dependencies]
+num = "*"

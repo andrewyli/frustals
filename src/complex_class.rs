@@ -1,5 +1,5 @@
 //NOTE: This is essentially directly copied off of 0.11 Rust's num::complex, I don't claim any credit whatsoever for any code in this file.
-
+//CURRENTLY UNUSED
 /// A complex number in Cartesian form.
 pub struct Complex<F64> {
     /// Real portion of the complex number
@@ -18,10 +18,6 @@ impl Complex<f64> {
         Complex { re: re, im: im }
     }
 
-    /**
-    Returns the square of the norm (since `T` doesn't necessarily
-    have a sqrt function), i.e. `re^2 + im^2`.
-    */
     #[inline]
     pub fn norm_sqr(&self) -> f64 {
         self.re * self.re + self.im * self.im
@@ -55,6 +51,7 @@ impl Complex<f64> {
                     -self.im / norm_sqr)
     }
 
+    /*
     pub fn pow(&self, mut deg: uint) -> Complex<f64> {
         let mut out = Complex::new(1f64, 0f64);
         while deg > 0 {
@@ -63,27 +60,29 @@ impl Complex<f64> {
         }
         out
     }
+    */
 }
 
 /* arithmetic */
 // (a + i b) + (c + i d) == (a + c) + i (b + d)
 impl Add<Complex<f64>, Complex<f64>> for Complex<f64> {
     #[inline]
-    fn add(&self, other: &Complex<f64>) -> Complex<f64> {
+    pub fn add(&self, other: &Complex<f64>) -> Complex<f64> {
         Complex::new(self.re + other.re, self.im + other.im)
     }
 }
+
 // (a + i b) - (c + i d) == (a - c) + i (b - d)
 impl Sub<Complex<f64>, Complex<f64>> for Complex<f64> {
     #[inline]
-    fn sub(&self, other: &Complex<f64>) -> Complex<f64> {
+    pub fn sub(&self, other: &Complex<f64>) -> Complex<f64> {
         Complex::new(self.re - other.re, self.im - other.im)
     }
 }
 // (a + i b) * (c + i d) == (a*c - b*d) + i (a*d + b*c)
 impl Mul<Complex<f64>, Complex<f64>> for Complex<f64> {
     #[inline]
-    fn mul(&self, other: &Complex<f64>) -> Complex<f64> {
+    pub fn mul(&self, other: &Complex<f64>) -> Complex<f64> {
         Complex::new(self.re*other.re - self.im*other.im,
                    self.re*other.im + self.im*other.re)
     }
@@ -93,7 +92,7 @@ impl Mul<Complex<f64>, Complex<f64>> for Complex<f64> {
 //   == [(a*c + b*d) / (c*c + d*d)] + i [(b*c - a*d) / (c*c + d*d)]
 impl Div<Complex<f64>, Complex<f64>> for Complex<f64> {
     #[inline]
-    fn div(&self, other: &Complex<f64>) -> Complex<f64> {
+    pub fn div(&self, other: &Complex<f64>) -> Complex<f64> {
         let norm_sqr = other.norm_sqr();
         Complex::new((self.re*other.re + self.im*other.im) / norm_sqr,
                    (self.im*other.re - self.re*other.im) / norm_sqr)
