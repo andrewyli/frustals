@@ -1,6 +1,6 @@
 //CPolynomial is a complex-valued polynomial with real (f64) coefficients
 
-// To-do: add in mul and div + tests
+// To-do: add in mul and div
 use num::Complex;
 
 // the first element of the vector should be the constant term!
