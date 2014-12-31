@@ -67,7 +67,8 @@ pub fn make_bmp(v: Vec<Vec<Complex<f64>>>, lim: f64) {
             })
         }
         else {
-            let gradient: u8 = 255u8 - (v[x][y].norm_sqr().log(2f64) as u8);
+            //let gradient: u8 = 255u8 - (v[x][y].norm_sqr().round() % 255f64) as u8;
+            let gradient = 255u8;
             let r_val: u8 = max(gradient, 0);
             let g_val: u8 = max(gradient, 0);
             let b_val: u8 = max(gradient, 0);
@@ -91,12 +92,12 @@ mod test {
         let vec = vec!(0f64, 0f64, 1f64);
         let poly = CPolynomial::new(vec);
         let arr = match complex_iterator::generate_val_arr(
-            -2f64, 1.5f64, -2f64, 1.5f64, &poly,
-            400u, 400u, 50u) {
+            -1f64, 0.5f64, -1f64, 0.5f64, &poly,
+            1000u, 1000u, 100u) {
             Ok(v) => v,
             Err(e) => panic!("{}", e)
         };
 
-        complex_iterator::make_bmp(arr, 10000000f64);
+        complex_iterator::make_bmp(arr, 10000000000f64);
     }
 }
