@@ -14,12 +14,13 @@ impl CPolynomial {
     }
     #[inline]
     pub fn eval(&self, x: Complex<f64>) -> Complex<f64> {
+        if x.re == 0f64 && x.im == 0f64 { return Complex::new(self.coeff[0], 0f64) }
         let mut c = Complex::new(0f64, 0f64);
         // uses Horner's rule
         for &i in self.coeff.iter().rev() { 
             c = (c + Complex::new(i, 0f64)) * x;
         }
-        c / x
+        c / x // cannot have x == 0 + 0i
     }
     #[inline]
     pub fn add(&self, other: &CPolynomial) -> CPolynomial {
