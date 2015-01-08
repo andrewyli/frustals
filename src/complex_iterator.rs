@@ -36,11 +36,11 @@ pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
             
             it_h += horizontal_increment;
             // unsure if trunc is the best way to accomplish this
-            if (it_h - rbound - horizontal_increment).trunc() >= 0f64 { break }
+            if it_h - rbound + horizontal_increment >= 0f64 { break }
         }
         out.push(part);
         it_v -= vertical_increment;
-        if (it_v - dbound + vertical_increment).trunc() <= 0f64 { break }
+        if it_v - dbound - vertical_increment <= 0f64 { break }
     }
     Ok(out)
 }
@@ -50,9 +50,9 @@ pub fn make_bmp(v: Vec<Vec<int>>) {
     let mut img = bmp::Image::new(v.len(), v[0].len());
     for (x, y) in img.coordinates() {
         img.set_pixel(x, y, bmp::Pixel {
-            r: 255u8 - v[x][y] as u8,
-            g: v[x][y] as u8,
-            b: v[x][y] as u8,
+            r: (255 - v[x][y]) as u8,
+            g: 150 - v[x][y] as u8,
+            b: 150 - v[x][y] as u8,
         })
     }
     img.save("/home/andrew/Downloads/test1.bmp");
@@ -64,12 +64,25 @@ mod test {
     use complex_iterator;
 
     #[test]
+    fn array_gen() {
+        let vec = vec!(0f64, 0f64, 2f64);
+        let poly = CPolynomial::new(vec);
+        let arr = match complex_iterator::generate_val_arr(
+            -5f64, 5f64, -5f64, 5f64, &poly,
+            20u, 20u, 255u) {
+            Ok(v) => v,
+            Err(e) => panic!("{}", e)
+        };
+        assert_eq!(arr[0][0], 255);
+    }
+
+    #[test]
     fn mandelbrot() {
         let vec = vec!(0f64, 0f64, 1f64);
         let poly = CPolynomial::new(vec);
         let arr = match complex_iterator::generate_val_arr(
-            -2f64, 1.5f64, -2f64, 1.5f64, &poly,
-            1000u, 1000u, 255u) {
+            -2.5f64, 0.5f64, -1.5f64, 1.5f64, &poly,
+            600u, 600u, 100u) {
             Ok(v) => v,
             Err(e) => panic!("{}", e)
         };
