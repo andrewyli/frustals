@@ -45,14 +45,14 @@ pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
     Ok(out)
 }
 
-pub fn make_bmp(v: Vec<Vec<int>>) {
+pub fn make_bmp(v: Vec<Vec<int>>, rbase: u8, gbase: u8, bbase: u8) {
     // assumes v[0] exists
     let mut img = bmp::Image::new(v.len(), v[0].len());
     for (x, y) in img.coordinates() {
         img.set_pixel(x, y, bmp::Pixel {
-            r: (255 - v[x][y]) as u8,
-            g: 150 - v[x][y] as u8,
-            b: 150 - v[x][y] as u8,
+            r: rbase - v[x][y] as u8,
+            g: gbase- v[x][y] as u8,
+            b: bbase- v[x][y] as u8,
         })
     }
     img.save("/home/andrew/Downloads/test1.bmp");
@@ -87,6 +87,6 @@ mod test {
             Err(e) => panic!("{}", e)
         };
 
-        complex_iterator::make_bmp(arr);
+        complex_iterator::make_bmp(arr, 255u8, 150u8, 150u8);
     }
 }
