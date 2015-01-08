@@ -13,3 +13,5 @@ Pictures:
 
 ![Picture 1](https://raw.github.com/EchoAce/frustals/master/test1.bmp)
 ![Picture 2](https://raw.github.com/EchoAce/frustals/master/test2.bmp)
+![Mandelbrot](https://raw.github.com/EchoAce/frustals/master/mandelbrot.bmp)
+![Tribrot](https://raw.github.com/EchoAce/frustals/master/tribrot.bmp)

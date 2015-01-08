@@ -1,9 +1,9 @@
-//CPolynomial is a complex-valued polynomial with real (f64) coefficients
+/// CPolynomial is a complex-valued polynomial with real (f64) coefficients
 
-// To-do: add in mul and div
+/// To-do: add in mul and div
 use num::Complex;
 
-// the first element of the vector should be the constant term!
+/// the first element of the vector should be the constant term!
 pub struct CPolynomial {
     coeff: Vec<f64>
 }
