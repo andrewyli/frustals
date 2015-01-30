@@ -2,7 +2,7 @@ frustals
 ========
 
 A library for fractals made by iteration in Rust.
-
+(DOES NOT WORK AS OF NOW DUE TO CHANGES IN RUST ALPHA 1.0.0)
 This will use polynomial iteration with seeds to color a picture. Simply choose your polynomial, specify parameters for image size and graphing window, and edit color scheme. See test ```mandlebrot``` for more information.
 
 ```cargo test``` will run all tests, generating a BMP of the Mandelbrot set.
