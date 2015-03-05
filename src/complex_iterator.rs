@@ -8,8 +8,8 @@ use bmp;
 /// of the array/img.
 /// iter_count is the number of iterations to perform before completion.
 pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
-                        cpoly: &CPolynomial, img_l: uint, img_w: uint,
-                        iter_count: uint) -> Result<Vec<Vec<int>>, &str> {
+                        cpoly: &CPolynomial, img_l: usize, img_w: usize,
+                        iter_count: usize) -> Result<Vec<Vec<int>>, &str> {
     assert!(rbound > lbound); assert!(ubound > dbound);
     let horizontal_increment: f64 = (rbound - lbound) / (img_l as f64);
     let vertical_increment: f64 = (ubound - dbound) / (img_w as f64);
@@ -108,4 +108,6 @@ mod test {
         let img = complex_iterator::make_bmp(arr, 0u8, 0u8, 0u8, -10i8, -2i8, -4i8);
         img.save("/home/andrew/Downloads/tribrot.bmp");
     }
+
+    #[test]
 }
