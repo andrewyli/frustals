@@ -1,6 +1,10 @@
 use num::Complex;
 use cpolynomial::CPolynomial;
-use bmp;
+use image::{
+    GenericImage,
+    ImageBuffer,
+    imageops
+};
 
 /// xbound represents the bounds of the picture to be created, for x = l, r, u, d.
 /// ubound > lbound, rbound > lbound
@@ -8,12 +12,12 @@ use bmp;
 /// of the array/img.
 /// iter_count is the number of iterations to perform before completion.
 pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
-                        cpoly: &CPolynomial, img_l: usize, img_w: usize,
-                        iter_count: usize) -> Result<Vec<Vec<int>>, &str> {
+                        cpoly: &CPolynomial, img_l: u64, img_w: u64,
+                        iter_count: usize) -> Result<Vec<Vec<isize>>, &str> {
     assert!(rbound > lbound); assert!(ubound > dbound);
     let horizontal_increment: f64 = (rbound - lbound) / (img_l as f64);
     let vertical_increment: f64 = (ubound - dbound) / (img_w as f64);
-    
+
     let mut out = Vec::new();
 
     let mut it_v: f64 = ubound;
@@ -23,18 +27,17 @@ pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
         loop { // over the x-axis
             let constant = Complex::new(it_h, it_v); // c of x^2 + c
             let mut seed = Complex::new(0f64, 0f64);
-            let mut i = 0i;
-            for _j in range(0, iter_count) { // iterate through polynomial iter_count times
+            let mut i = 0;
+            for _j in 0..iter_count { // iterate through polynomial iter_count times
                 seed = cpoly.eval(seed) + constant;
                 if seed.norm() > 2f64 {
                     break
                 }
-                i += 1i;
+                i += 1;
             }
             part.push(i); // push result to sub/row-vector
-            
+
             it_h += horizontal_increment;
-            // unsure if trunc is the best way to accomplish this
             if it_h - rbound + horizontal_increment >= 0f64 { break }
         }
         out.push(part);
@@ -46,20 +49,20 @@ pub fn generate_val_arr(lbound: f64, rbound: f64, dbound: f64, ubound: f64,
 
 /// x-base: the starting value, default should be 255
 /// x-mod: multiplier of v[x][y], changes rate of color change.
-pub fn make_bmp(v: Vec<Vec<int>>,
-                rbase: u8, gbase: u8, bbase: u8,
-                rmod: i8, gmod: i8, bmod: i8) -> bmp::Image {
-    // assumes v[0] exists
-    let mut img = bmp::Image::new(v.len(), v[0].len());
-    for (x, y) in img.coordinates() {
-        img.set_pixel(x, y, bmp::Pixel {
-            r: rbase - (v[x][y] as u8) * (rmod as u8),
-            g: gbase- (v[x][y] as u8) * (gmod as u8),
-            b: bbase- (v[x][y] as u8) * (bmod as u8),
-        })
-    }
-    img
-}
+// pub fn make_bmp(v: Vec<Vec<isize>>,
+//                 rbase: u8, gbase: u8, bbase: u8,
+//                 rmod: i8, gmod: i8, bmod: i8) -> bmp::Image {
+//     // assumes v[0] exists
+//     let mut img = bmp::Image::new(v.len() as u32, v[0].len() as u32);
+//     for (x, y) in img.coordinates() {
+//         img.set_pixel(x, y, bmp::Pixel {
+//             r: rbase - (v[x as usize][y as usize] as u8) * (rmod as u8),
+//             g: gbase - (v[x as usize][y as usize] as u8) * (gmod as u8),
+//             b: bbase - (v[x as usize][y as usize] as u8) * (bmod as u8),
+//         })
+//     }
+//     img
+// }
 
 #[cfg(test)]
 mod test {
@@ -72,7 +75,7 @@ mod test {
         let poly = CPolynomial::new(vec);
         let arr = match complex_iterator::generate_val_arr(
             -5f64, 5f64, -5f64, 5f64, &poly,
-            20u, 20u, 255u) {
+            20, 20, 255) {
             Ok(v) => v,
             Err(e) => panic!("{}", e)
         };
@@ -85,13 +88,13 @@ mod test {
         let poly = CPolynomial::new(vec);
         let arr = match complex_iterator::generate_val_arr(
             -2.5f64, 0.5f64, -1.5f64, 1.5f64, &poly,
-            600u, 600u, 100u) {
+            600, 600, 100) {
             Ok(v) => v,
             Err(e) => panic!("{}", e)
         };
 
-        let img = complex_iterator::make_bmp(arr, 255u8, 255u8, 255u8, 10i8, 7i8, 4i8);
-        img.save("/home/andrew/Downloads/mandelbrot.bmp");
+        // let img = complex_iterator::make_bmp(arr, 255u8, 255u8, 255u8, 10i8, 7i8, 4i8);
+        // img.save("/home/andrew/Downloads/mandelbrot.bmp");
     }
 
     #[test]
@@ -100,14 +103,12 @@ mod test {
         let poly = CPolynomial::new(vec);
         let arr = match complex_iterator::generate_val_arr(
             -1.5f64, 1.5f64, -1.5f64, 1.5f64, &poly,
-            600u, 600u, 100u) {
+            600, 600, 100) {
             Ok(v) => v,
             Err(e) => panic!("{}", e)
         };
 
-        let img = complex_iterator::make_bmp(arr, 0u8, 0u8, 0u8, -10i8, -2i8, -4i8);
-        img.save("/home/andrew/Downloads/tribrot.bmp");
+        // let img = complex_iterator::make_bmp(arr, 0u8, 0u8, 0u8, -10i8, -2i8, -4i8);
+        // img.save("/home/andrew/Downloads/tribrot.bmp");
     }
-
-    #[test]
 }

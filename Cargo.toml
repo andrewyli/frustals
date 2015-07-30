@@ -9,5 +9,5 @@ name = "frustals"
 path = "src/lib.rs"
 
 [dependencies]
-bmp = "*"
 num = "*"
+image = "*"

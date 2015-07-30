@@ -17,7 +17,7 @@ impl CPolynomial {
         if x.re == 0f64 && x.im == 0f64 { return Complex::new(self.coeff[0], 0f64) }
         let mut c = Complex::new(0f64, 0f64);
         // uses Horner's rule
-        for &i in self.coeff.iter().rev() { 
+        for &i in self.coeff.iter().rev() {
             c = (c + Complex::new(i, 0f64)) * x;
         }
         c / x // cannot have x == 0 + 0i
@@ -26,18 +26,18 @@ impl CPolynomial {
     pub fn add(&self, other: &CPolynomial) -> CPolynomial {
         let mut new_coeff: Vec<f64> = Vec::new();
         if self.coeff.len() < other.coeff.len() {
-            for i in range(0u, self.coeff.len()) {
+            for i in 0..self.coeff.len() as usize {
                 new_coeff.push(self.coeff[i] + other.coeff[i]);
             }
-            for i in range(self.coeff.len(), other.coeff.len()) {
+            for i in self.coeff.len()..other.coeff.len() as usize {
                 new_coeff.push(other.coeff[i]);
             }
         }
         else {
-            for i in range(0u, other.coeff.len()) {
+            for i in 0..other.coeff.len() as usize {
                 new_coeff.push(self.coeff[i] + other.coeff[i]);
             }
-            for i in range(other.coeff.len(), self.coeff.len()) {
+            for i in other.coeff.len()..self.coeff.len() as usize {
                 new_coeff.push(self.coeff[i]);
             }
         }
@@ -47,18 +47,18 @@ impl CPolynomial {
     pub fn sub(&self, other: &CPolynomial) -> CPolynomial {
         let mut new_coeff: Vec<f64> = Vec::new();
         if self.coeff.len() < other.coeff.len() {
-            for i in range(0u, self.coeff.len()) {
+            for i in 0..self.coeff.len() as usize {
                 new_coeff.push(self.coeff[i] - other.coeff[i]);
             }
-            for i in range(self.coeff.len(), other.coeff.len()) {
+            for i in self.coeff.len()..other.coeff.len() as usize{
                 new_coeff.push(-1f64 * other.coeff[i]);
             }
         }
         else {
-            for i in range(0u, other.coeff.len()) {
+            for i in 0..other.coeff.len() as usize {
                 new_coeff.push(self.coeff[i] - other.coeff[i]);
             }
-            for i in range(other.coeff.len(), self.coeff.len()) {
+            for i in other.coeff.len()..self.coeff.len() as usize {
                 new_coeff.push(self.coeff[i]);
             }
         }

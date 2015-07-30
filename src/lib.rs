@@ -2,7 +2,7 @@
 #![crate_type = "lib"]
 
 extern crate num;
-extern crate bmp;
+extern crate image;
 
 pub mod cpolynomial;
 pub mod complex_iterator;
