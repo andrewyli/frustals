@@ -12,16 +12,19 @@ impl CPolynomial {
     pub fn new(v: Vec<f64>) -> CPolynomial {
         CPolynomial { coeff: v }
     }
+
     #[inline]
     pub fn eval(&self, x: Complex<f64>) -> Complex<f64> {
         if x.re == 0f64 && x.im == 0f64 { return Complex::new(self.coeff[0], 0f64) }
         let mut c = Complex::new(0f64, 0f64);
-        // uses Horner's rule
+
+        // uses Horner's rule for fast evaluation
         for &i in self.coeff.iter().rev() {
             c = (c + Complex::new(i, 0f64)) * x;
         }
-        c / x // cannot have x == 0 + 0i
+        c / x // cannot have x == 0 + 0i, for good reason
     }
+
     #[inline]
     pub fn add(&self, other: &CPolynomial) -> CPolynomial {
         let mut new_coeff: Vec<f64> = Vec::new();
@@ -43,6 +46,7 @@ impl CPolynomial {
         }
         CPolynomial::new(new_coeff)
     }
+
     #[inline]
     pub fn sub(&self, other: &CPolynomial) -> CPolynomial {
         let mut new_coeff: Vec<f64> = Vec::new();
