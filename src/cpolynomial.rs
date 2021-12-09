@@ -120,9 +120,12 @@ mod test {
 
         assert_eq!(p1.mul(&p2).coeff, vec!(0f64, 4f64, 8f64, 21f64));
 
-        //todo more extensive tests 
+        let p1 = CPolynomial::new(vec!(1f64, 2f64, 3f64));
+        let p2 = CPolynomial::new(vec!(1f64, 1f64, 1f64, 1f64, 1f64));
+
+        assert_eq!(p1.mul(&p2).coeff, vec!(1f64, 2f64, 3f64, 0f64, 0f64));
     }
-    
+
     // TODO tests for divide
 
 
